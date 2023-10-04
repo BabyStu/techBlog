@@ -1,0 +1,24 @@
+<h1>Welcome, {{username}}</h1>
+<main class="container">
+  <div class="row mb-2">
+    {{#each post}}
+    <div class="col-md-6">
+      <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+        <div class="col p-4 d-flex flex-column position-static">
+          <strong class="d-inline-block mb-2 text-primary-emphasis">{{username}}</strong>
+          <h3 class="mb-0">{{title}}</h3>
+          <div class="mb-1 text-body-secondary">{{date_created}}</div>
+          <p class="card-text mb-auto">{{description}}</p>
+          <div class='d-flex justify-content-between align-items-center'>
+            <div class='btn-group'>
+              <a href='/edit/{{id}}' class='btn btn-sm btn-outline-secondary'>Edit</a>
+              <button type='button' class='btn btn-sm btn-outline-danger' data-id='{{id}}'>Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{/each}}
+    <button id='post-button' class='btn btn-primary'>New Post</button>
+</main>
+<script src="/js/homepage.js"></script>

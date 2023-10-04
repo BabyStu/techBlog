@@ -1,0 +1,21 @@
+[
+  {
+    "title": "Sample Item 1",
+    "description": "This is the first sample item.",
+    "date_created": "2023-09-13T00:00:00Z",
+    "user_id": 1
+  },
+  {
+    "title": "Sample Item 2",
+    "description": "This is the second sample item.",
+    "date_created": "2023-09-14T00:00:00Z",
+    "user_id": 2
+  },
+  {
+    "title": "Sample Item 3",
+    "description": "This is the third sample item.",
+    "date_created": "2023-09-15T00:00:00Z",
+    "user_id": 3
+  }
+]
+
