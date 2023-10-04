@@ -14,6 +14,7 @@ router.get('/', async (req, res) => {
       ],
     });
     console.log(postData, 'this is the post data');
+    console.log(postData.username, 'this is the username')
 
     // Serialize data so the template can read it
     const posts = postData.map((post) => post.get({ plain: true }));
@@ -53,16 +54,32 @@ router.get('/post/:id', async (req, res) => {
 // Use withAuth middleware to prevent access to route
 router.get('/homepage', withAuth, async (req, res) => {
   try {
-    // Find the logged in user based on the session ID
-    const userData = await User.findByPk(req.session.user_id, {
+    let userID;
+
+    if (req.session.user_id === undefined) {
+      userID = req.user.id;
+    } else {
+      userID = req.session.user_id;
+    }
+
+    const userData = await User.findByPk(userID, {
       attributes: { exclude: ['password'] },
-      include: [{ model: Post }],
     });
+    console.log(userData, 'this is the user data');
 
     const username = userData.get({ plain: true });
+    console.log(username, 'this is the username');
+
+    const postData = await Post.findAll({
+      where: { user_id: userID },
+      include: [{ model: User, attributes: ['username'] }],
+    });
+
+    const posts = postData.map((post) => post.get({ plain: true }));
 
     res.render('homepage', {
       ...username,
+      posts,
       logged_in: true
     });
   } catch (err) {
@@ -80,9 +97,49 @@ router.get('/login', (req, res) => {
   res.render('login');
 });
 
+router.get('/edit/:id', async (req, res) => {
+  try {
+    const postId = req.params.id;
+    console.log(postId, "this is the item id");
+    const post = await Post.findByPk(postId);
+    console.log(post, "this is the item");
+
+    if (!post) {
+      res.status(404).json({ message: 'Item not found' });
+      return;
+    }
+
+    res.render('edit', {
+      ... post,
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 router.get('/post', (req, res) => {
 
   res.render('post');
+});
+
+router.get('/logout', function (req, res, next) {
+
+  if (req.session.user_id === undefined) {
+    req.logout(function(err) {
+      if (err) { return next(err); }
+      res.redirect('/');
+    });
+       
+  } else {
+    if (req.session.logged_in) {
+      req.session.destroy(() => {
+        res.status(204).end();
+      });
+    } else {
+      res.status(404).end();
+    }
+    return res.redirect('/');
+  }
 });
 
 module.exports = router;

@@ -17,19 +17,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-// router.post('/', withAuth, async (req, res) => {
-//   try {
-//     const newPost = await Post.create({
-//       ...req.body,
-//       user_id: req.session.user_id,
-//     });
-
-//     res.status(200).json(newPost);
-//   } catch (err) {
-//     res.status(400).json(err);
-//   }
-// });
-
 router.post('/', withAuth, async (req, res) => {
   try {
     console.log(req.body);
@@ -70,23 +57,23 @@ router.delete('/:id', withAuth, async (req, res) => {
   }
 });
 
-router.put('/edit-item/:id', async (req, res) => {
+router.put('/edit-post/:id', async (req, res) => {
   try {
-    const itemId = req.params.id;
-    const item = await Item.findByPk(itemId);
+    const postId = req.params.id;
+    const post = await Post.findByPk(postId);
 
-    if (!item) {
-      res.status(404).json({ message: 'Item not found' });
+    if (!post) {
+      res.status(404).json({ message: 'post not found' });
       return;
     }
 
-    const updatedItem = await Item.update(req.body, {
+    const updatedPost = await Post.update(req.body, {
       where: {
-        id: itemId,
+        id: postId,
       },
     });
 
-    res.status(200).json(updatedItem);
+    res.status(200).json(updatedPost);
   } catch (err) {
     res.status(500).json(err);
   }
