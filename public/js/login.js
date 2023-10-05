@@ -16,7 +16,6 @@ const loginFormHandler = async (event) => {
     if (response.ok) {
       // If successful, redirect the browser to the profile page
       document.location.replace('/homepage');
-      window.location.reload();
 
     } else {
       alert(response.statusText);
@@ -40,7 +39,6 @@ const signupFormHandler = async (event) => {
 
     if (response.ok) {
       document.location.replace('/homepage');
-      window.location.reload();
     } else {
       alert(response.statusText);
     }

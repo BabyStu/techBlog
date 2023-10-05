@@ -1,4 +1,3 @@
-window.location.reload();
 
 const delButtonHandler = async (event) => {
   if (event.target.hasAttribute('data-id')) {
