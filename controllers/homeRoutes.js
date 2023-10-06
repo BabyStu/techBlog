@@ -29,7 +29,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.get('/post/:id', async (req, res) => {
+router.get('/viewpost/:id', async (req, res) => {
   try {
     const postData = await Post.findByPk(req.params.id, {
       include: [
@@ -42,10 +42,8 @@ router.get('/post/:id', async (req, res) => {
 
     const post = postData.get({ plain: true });
 
-    res.render('post', {
-      ...post,
-      logged_in: req.session.logged_in
-    });
+    res.render('viewpost', post);
+    
   } catch (err) {
     res.status(500).json(err);
   }
@@ -97,11 +95,12 @@ router.get('/login', (req, res) => {
   res.render('login');
 });
 
-router.get('/edit/:id', async (req, res) => {
+router.get('/edit/:id', withAuth, async (req, res) => {
   try {
     const postId = req.params.id;
     console.log(postId, "this is the item id");
-    const post = await Post.findByPk(postId);
+    const postData = await Post.findByPk(postId)
+    const post = postData.get({ plain: true });
     console.log(post, "this is the item");
 
     if (!post) {
@@ -109,9 +108,9 @@ router.get('/edit/:id', async (req, res) => {
       return;
     }
 
-    res.render('edit', {
-      ... post,
-    });
+    res.render('edit',
+     post
+    );
   } catch (err) {
     res.status(500).json(err);
   }
@@ -122,24 +121,24 @@ router.get('/post', (req, res) => {
   res.render('post');
 });
 
-router.get('/logout', function (req, res, next) {
+// router.get('/logout', function (req, res, next) {
 
-  if (req.session.user_id === undefined) {
-    req.logout(function(err) {
-      if (err) { return next(err); }
-      res.redirect('/');
-    });
+//   if (req.session.user_id === undefined) {
+//     req.logout(function(err) {
+//       if (err) { return next(err); }
+//       res.redirect('/');
+//     });
        
-  } else {
-    if (req.session.logged_in) {
-      req.session.destroy(() => {
-        res.status(204).end();
-      });
-    } else {
-      res.status(404).end();
-    }
-    return res.redirect('/');
-  }
-});
+//   } else {
+//     if (req.session.logged_in) {
+//       req.session.destroy(() => {
+//         res.status(204).end();
+//       });
+//     } else {
+//       res.status(404).end();
+//     }
+//     return res.redirect('/');
+//   }
+// });
 
 module.exports = router;

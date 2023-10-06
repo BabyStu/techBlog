@@ -8,12 +8,12 @@
             <div>
               <form id="editPostForm" action='/edit/{{item_id}}' method='POST'>
                 <div class='form-group'>
-                  <label  for='title'>Title:</label>
+                  <label for='title'>Title:</label>
                   <input
                     id="titleInput"
                     type='text'
                     class='form-control'
-                    name='item_name'
+                    name='title'
                     value='{{title}}'
                     required
                   />
@@ -23,7 +23,7 @@
                   <textarea
                     id="descriptionInput"
                     class='form-control'
-                    name='description'
+                    name='postDescription'
                     rows='3'
                   >{{description}}</textarea>
                 </div>

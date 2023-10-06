@@ -57,7 +57,7 @@ router.delete('/:id', withAuth, async (req, res) => {
   }
 });
 
-router.put('/edit-post/:id', async (req, res) => {
+router.put('/edit-post/:id', withAuth, async (req, res) => {
   try {
     const postId = req.params.id;
     const post = await Post.findByPk(postId);
