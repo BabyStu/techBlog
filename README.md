@@ -8,6 +8,7 @@
 - [Contributing](#contributing)
 - [Questions](#questions)
 
+![screenshot of tech blog](./images/screenshot.png)
 
 
 ## Description
