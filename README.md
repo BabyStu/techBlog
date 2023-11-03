@@ -9,6 +9,7 @@
 - [Questions](#questions)
 
 
+
 ## Description
 This is a blog to chat and discuss tech.
 
